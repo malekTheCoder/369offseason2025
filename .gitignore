@@ -47,16 +47,16 @@ captures/
 .DS_Store
 
 # Keystore files
-# Uncomment the following lines if you do not want to check your keystore files in.
-#*.jks
-#*.keystore
+# Exclude keystore files from commits
+*.jks
+*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)
-# google-services.json
+google-services.json
 
 # Freeline
 freeline.py
@@ -79,3 +79,15 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# VS Code (optional, for team members using VS Code)
+.vscode/
+
+# Secrets or env config (future safety)
+*.env
+*.key
+apikeys.json
+
+# Temporary files
+*.tmp
+*.bak
