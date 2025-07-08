@@ -1,0 +1,4 @@
+# This CODEOWNERS file enforces GitHub pull request approvals.
+# Any pull request that modifies any file in this repository
+# must be reviewed and approved by users specefid below.
+* @malekTheCoder
