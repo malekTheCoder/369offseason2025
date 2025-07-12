@@ -14,7 +14,7 @@ public class eBasicTeleop extends OpMode {
     private Servo claw;
     private Servo rotation;
     private Servo arm;
-    private Servo tower;
+    //private Servo tower;
 
     @Override
     public void init() {
@@ -25,8 +25,8 @@ public class eBasicTeleop extends OpMode {
 
         claw = hardwareMap.get(Servo.class, "claw");
         rotation = hardwareMap.get(Servo.class, "rotation");
-        arm = hardwareMap.get(Servo.class, "arm");
-        tower = hardwareMap.get(Servo.class, "tower");
+        arm = hardwareMap.get(Servo.class, "sampleArm");
+        //tower = hardwareMap.get(Servo.class, "tower");
     }
 
     @Override
@@ -76,13 +76,15 @@ public class eBasicTeleop extends OpMode {
         else if(gamepad1.b) {
             arm.setPosition(.9);
         }
-
+        /*
         if(gamepad1.x){
             tower.setPosition(.1);
         }
         else if(gamepad1.y){
             tower.setPosition(.9);
         }
+        */
+
     }
 
 }
