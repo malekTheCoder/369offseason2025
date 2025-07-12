@@ -69,20 +69,29 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleDriveTrain() {
-        double var = 1;
-        double StickX = gamepad1.left_stick_x;
-        double StickY = gamepad1.left_stick_y;
-        if (Math.abs(gamepad1.left_stick_x) > 0.2) {
-            frontLeft.setPower(var * StickX);
-            frontRight.setPower(-var * StickX);
-            backLeft.setPower(-var * StickX);
-            backRight.setPower(var * StickX);
+        if(gamepad1.dpad_up){
+            frontLeft.setPower(0.5);
+            frontRight.setPower(0.5);
+            backLeft.setPower(0.5);
+            backRight.setPower(0.5);
         }
-        if (Math.abs(gamepad1.left_stick_y) > 0.2) {
-            frontLeft.setPower(var * StickY);
-            frontRight.setPower(var * StickY);
-            backLeft.setPower(var * StickY);
-            backRight.setPower(var * StickY);
+        if(gamepad1.dpad_down){
+            frontLeft.setPower(-0.5);
+            frontRight.setPower(-0.5);
+            backLeft.setPower(-0.5);
+            backRight.setPower(-0.5);
+        }
+        if(gamepad1.dpad_right){
+            frontLeft.setPower(0.5);
+            frontRight.setPower(-0.5);
+            backLeft.setPower(-0.5);
+            backRight.setPower(0.5);
+        }
+        if(gamepad1.dpad_left){
+            frontLeft.setPower(-0.5);
+            frontRight.setPower(0.5);
+            backLeft.setPower(0.5);
+            backRight.setPower(-0.5);
         }
     }
 
