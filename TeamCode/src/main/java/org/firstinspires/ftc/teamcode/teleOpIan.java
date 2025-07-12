@@ -94,7 +94,10 @@ public class teleOpIan extends OpMode {
             backRight.setPower(-0.5);
         }
         else{
-
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+            backLeft.setPower(0);
+            backRight.setPower(0);
         }
     }
 
