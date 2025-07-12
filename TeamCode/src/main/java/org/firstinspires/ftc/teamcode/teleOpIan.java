@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 @TeleOp(name="Ian")
-public class ianTele extends OpMode {
+public class teleOpIan extends OpMode {
     private DcMotor backLeft;
     private DcMotor frontLeft;
     private DcMotor backRight;
