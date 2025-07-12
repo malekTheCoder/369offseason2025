@@ -25,7 +25,7 @@ public class teleOpIan extends OpMode {
     private Servo lowRaise;
     private double lowRaise_max;
     private double lowRaise_min;
-    private Servo arm;
+    private Servo sampleArm;
     private double arm_max;
     private double arm_min;
     private double DRIVE_POWER_VARIABLE = 1;
@@ -37,10 +37,10 @@ public class teleOpIan extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
-        arm = hardwareMap.get(Servo.class, "arm");
+        sampleArm = hardwareMap.get(Servo.class, "sampleArm");
         arm_max = 0.8;
         arm_min= 0.2;
-        clawRot = hardwareMap.get(Servo.class, "clawRot");
+        clawRot = hardwareMap.get(Servo.class, "rotation");
         clawRot_max = 0.8;
         clawRot_min = 0.2;
         lowRaise = hardwareMap.get(Servo.class, "lowRaise");
@@ -112,10 +112,10 @@ public class teleOpIan extends OpMode {
     }
     private void handleArm() {
         if(gamepad1.dpad_up){
-            arm.setPosition(arm_max);
+            sampleArm.setPosition(arm_max);
         }
         else if(gamepad1.dpad_down){
-            arm.setPosition(arm_min);
+            sampleArm.setPosition(arm_min);
         }
     }
 }
