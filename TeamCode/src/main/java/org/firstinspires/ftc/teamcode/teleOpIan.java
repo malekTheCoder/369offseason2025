@@ -93,6 +93,9 @@ public class teleOpIan extends OpMode {
             backLeft.setPower(0.5);
             backRight.setPower(-0.5);
         }
+        else{
+
+        }
     }
 
     private void handleClaw() {
