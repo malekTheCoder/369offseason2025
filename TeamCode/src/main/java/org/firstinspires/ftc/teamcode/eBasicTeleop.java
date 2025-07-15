@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "basic teleop")
 public class eBasicTeleop extends OpMode {
@@ -15,6 +18,7 @@ public class eBasicTeleop extends OpMode {
     private Servo rotation;
     private Servo arm;
     //private Servo tower;
+    private DistanceSensor distance;
 
     @Override
     public void init() {
@@ -27,12 +31,15 @@ public class eBasicTeleop extends OpMode {
         rotation = hardwareMap.get(Servo.class, "rotation");
         arm = hardwareMap.get(Servo.class, "sampleArm");
         //tower = hardwareMap.get(Servo.class, "tower");
+
+        distance = hardwareMap.get(DistanceSensor.class, "distance");
     }
 
     @Override
     public void loop() {
         drivetrain();
         intake();
+
 
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
@@ -54,6 +61,14 @@ public class eBasicTeleop extends OpMode {
         backRight.setPower(1*gamepad1.right_stick_x);
         frontLeft.setPower(-1*gamepad1.right_stick_x);
         frontRight.setPower(1*gamepad1.right_stick_x);
+
+
+        if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 6){
+            backLeft.setPower(.3);
+            backRight.setPower(.3);
+            frontLeft.setPower(.3);
+            frontRight.setPower(.3);
+        }
     }
     private void intake(){
         if (gamepad1.left_bumper) {
