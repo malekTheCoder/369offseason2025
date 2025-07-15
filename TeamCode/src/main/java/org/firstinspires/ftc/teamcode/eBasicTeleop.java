@@ -56,21 +56,21 @@ public class eBasicTeleop extends OpMode {
         telemetry.addData("backRight position", backRight.getCurrentPosition());
         //telemetry.addData("slide position", slide.getCurrentPosition());
     }
-    private void drivetrain(){
+    private void drivetrain(){/*
         backLeft.setPower(1*gamepad1.left_stick_x);
         backRight.setPower(-1*gamepad1.left_stick_x);
         frontLeft.setPower(-1*gamepad1.left_stick_x);
         frontRight.setPower(1*gamepad1.left_stick_x);
-
+        */
         backLeft.setPower(1*gamepad1.left_stick_y);
         backRight.setPower(1*gamepad1.left_stick_y);
         frontLeft.setPower(1*gamepad1.left_stick_y);
         frontRight.setPower(1*gamepad1.left_stick_y);
 
-        backLeft.setPower(-1 * gamepad1.right_stick_x);
-        backRight.setPower(1*gamepad1.right_stick_x);
-        frontLeft.setPower(-1*gamepad1.right_stick_x);
-        frontRight.setPower(1*gamepad1.right_stick_x);
+        backLeft.setPower(1 * gamepad1.right_stick_x);
+        backRight.setPower(-1*gamepad1.right_stick_x);
+        frontLeft.setPower(1*gamepad1.right_stick_x);
+        frontRight.setPower(-1*gamepad1.right_stick_x);
 
         if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 6){
             backLeft.setPower(.3);
