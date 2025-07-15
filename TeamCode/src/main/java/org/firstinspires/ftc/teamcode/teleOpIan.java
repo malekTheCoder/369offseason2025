@@ -132,10 +132,10 @@ public class teleOpIan extends OpMode {
 
 
     private void handleArm() {
-        if(gamepad1.dpad_up){
+        if(gamepad1.left_trigger>0.5){
             sampleArm.setPosition(arm_max);
         }
-        else if(gamepad1.dpad_down){
+        else if(gamepad1.right_trigger<0.5){
             sampleArm.setPosition(arm_min);
         }
     }
