@@ -53,7 +53,7 @@ public class eBasicTeleop extends OpMode {
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
-        telemetry.addData("frontRight position", frontRight.getCurrentPosition());
+        telemetry.addData("backRight position", backRight.getCurrentPosition());
         //telemetry.addData("slide position", slide.getCurrentPosition());
     }
     private void drivetrain(){
