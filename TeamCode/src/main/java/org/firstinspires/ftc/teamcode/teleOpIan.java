@@ -19,6 +19,7 @@ public class teleOpIan extends OpMode {
     private DcMotor backRight;
     private DcMotor frontRight;
     private Servo claw;
+    private DcMotor linearSlide;
     private double claw_max;
     private double claw_min;
     private Servo clawRot;
@@ -39,6 +40,7 @@ public class teleOpIan extends OpMode {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        linearSlide = hardwareMap.get(DcMotor.class, "slide");
 
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
@@ -56,6 +58,11 @@ public class teleOpIan extends OpMode {
         claw_min = 0.2;
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
         backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
@@ -66,11 +73,13 @@ public class teleOpIan extends OpMode {
         handleClawRot();
         //handleLowRaise();
         handleArm();
+        handleSlide();
 
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("backRight position", backRight.getCurrentPosition());
+        telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
     }
 
     private void handleDriveTrain() {
@@ -142,6 +151,18 @@ public class teleOpIan extends OpMode {
         }
         else if(gamepad1.right_trigger<0.5){
             sampleArm.setPosition(arm_min);
+        }
+    }
+
+    private void handleSlide(){
+        if(gamepad1.right_stick_y<-0.3){
+            linearSlide.setPower(-0.5);
+        }
+        else if(gamepad1.right_stick_y>0.3){
+            linearSlide.setPower(0.5);
+        }
+        else{
+            linearSlide.setPower(0);
         }
     }
 }
