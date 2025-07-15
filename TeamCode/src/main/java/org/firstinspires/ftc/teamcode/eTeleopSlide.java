@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "basic teleop")
-public class eBasicTeleop extends OpMode {
+@TeleOp(name = "basic teleop with slide testing")
+public class eTeleopSlide extends OpMode {
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor frontLeft;
