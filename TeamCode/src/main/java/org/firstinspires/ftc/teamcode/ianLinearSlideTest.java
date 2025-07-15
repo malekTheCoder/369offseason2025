@@ -67,7 +67,7 @@ public class ianLinearSlideTest extends OpMode {
         handleClawRot();
         //handleLowRaise();
         handleArm();
-        handleSlide();
+        //handleSlide();
 
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
