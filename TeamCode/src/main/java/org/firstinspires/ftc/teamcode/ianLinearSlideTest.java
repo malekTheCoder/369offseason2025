@@ -136,7 +136,7 @@ public class ianLinearSlideTest extends OpMode {
         }
     }
 
-    private void handleSlide(){
+    /*private void handleSlide(){
         if(gamepad1.right_stick_y<-0.3){
             linearSlide.setPower(-0.5);
         }
@@ -146,5 +146,5 @@ public class ianLinearSlideTest extends OpMode {
         else{
             linearSlide.setPower(0);
         }
-    }
+    }*/
 }
