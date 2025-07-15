@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="Ian")
+@TeleOp(name="IanKoLinear")
 public class ianLinearSlideTest extends OpMode {
 
     private DcMotor frontLeft;

@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="Ian")
+@TeleOp(name="Ian8888")
 public class teleOpIan extends OpMode {
     private DcMotor backLeft;
     private DcMotor frontLeft;
@@ -73,7 +73,7 @@ public class teleOpIan extends OpMode {
         handleClawRot();
         //handleLowRaise();
         handleArm();
-        handleSlide();
+        //handleSlide();
 
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
@@ -151,7 +151,7 @@ public class teleOpIan extends OpMode {
         }
     }
 
-    private void handleSlide() {
+    /*private void handleSlide() {
         if (gamepad1.right_stick_y < -0.3) {
             linearSlide.setPower(-0.5);
         }
@@ -161,5 +161,5 @@ public class teleOpIan extends OpMode {
         else {
             linearSlide.setPower(0);
         }
-    }
+    }*/
 }
