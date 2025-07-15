@@ -44,7 +44,7 @@ public class eTeleopSlide extends OpMode {
         intake();
 
 
-        telemetry.addData("frontLeft position", frontLeft.getCurrentPosition())
+        telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("slide position", slide.getCurrentPosition());
     }
@@ -57,11 +57,12 @@ public class eTeleopSlide extends OpMode {
 
         frontLeft.setPower(-1*gamepad1.right_stick_x);
         frontRight.setPower(1*gamepad1.right_stick_x);
-
+        /*
         if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 6){
-            frontLeft.setPower(.3);
-            frontRight.setPower(.3);
-        }
+            frontLeft.setPower(.2);
+            frontRight.setPower(.2);
+            slide.setPower(1);
+        }*/
     }
     private void intake(){
         if (gamepad1.left_bumper) {
