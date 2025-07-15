@@ -13,10 +13,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Ian")
-public class teleOpIan extends OpMode {
-    private DcMotor backLeft;
+public class ianLinearSlideTest extends OpMode {
+
     private DcMotor frontLeft;
-    private DcMotor backRight;
     private DcMotor frontRight;
     private Servo claw;
     private DcMotor linearSlide;
@@ -36,9 +35,7 @@ public class teleOpIan extends OpMode {
 
     @Override
     public void init() {
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         linearSlide = hardwareMap.get(DcMotor.class, "slide");
 
@@ -46,7 +43,7 @@ public class teleOpIan extends OpMode {
 
         sampleArm = hardwareMap.get(Servo.class, "sampleArm");
         arm_max = 0.8;
-        arm_min = 0.2;
+        arm_min= 0.2;
         clawRot = hardwareMap.get(Servo.class, "rotation");
         clawRot_max = 0.8;
         clawRot_min = 0.2;
@@ -57,9 +54,6 @@ public class teleOpIan extends OpMode {
         claw_max = 0.8;
         claw_min = 0.2;
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,42 +69,31 @@ public class teleOpIan extends OpMode {
         handleArm();
         handleSlide();
 
-        telemetry.addData("backLeft position", backLeft.getCurrentPosition());
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
-        telemetry.addData("backRight position", backRight.getCurrentPosition());
         telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
     }
 
     private void handleDriveTrain() {
-        if (gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
+        if(gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH)>10){
             frontLeft.setPower(0.5);
             frontRight.setPower(0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(0.5);
         }
-        if (gamepad1.dpad_down) {
+        if(gamepad1.dpad_down){
             frontLeft.setPower(-0.5);
             frontRight.setPower(-0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(-0.5);
         }
-        if (gamepad1.dpad_right) {
+        if(gamepad1.dpad_right){
             frontLeft.setPower(0.5);
             frontRight.setPower(-0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(0.5);
         }
-        if (gamepad1.dpad_left) {
+        if(gamepad1.dpad_left){
             frontLeft.setPower(-0.5);
             frontRight.setPower(0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(-0.5);
-        } else {
+        }
+        else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
         }
     }
 
@@ -123,9 +106,10 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleClawRot() {
-        if (gamepad1.y) {
+        if (gamepad1.y){
             clawRot.setPosition(clawRot_max);
-        } else if (gamepad1.a) {
+        }
+        else if (gamepad1.a){
             clawRot.setPosition(clawRot_min);
         }
     }
@@ -144,21 +128,22 @@ public class teleOpIan extends OpMode {
 
 
     private void handleArm() {
-        if (gamepad1.left_trigger > 0.5) {
+        if(gamepad1.left_trigger>0.5){
             sampleArm.setPosition(arm_max);
-        } else if (gamepad1.left_trigger < 0.5) {
+        }
+        else if(gamepad1.left_trigger<0.5){
             sampleArm.setPosition(arm_min);
         }
     }
 
-    private void handleSlide() {
-        if (gamepad1.right_stick_y < -0.3) {
+    private void handleSlide(){
+        if(gamepad1.right_stick_y<-0.3){
             linearSlide.setPower(-0.5);
         }
-        //else if(gamepad1.right_stick_y>0.3){
-        //    linearSlide.setPower(0.5);
-        //}
-        else {
+        else if(gamepad1.right_stick_y>0.3){
+            linearSlide.setPower(0.5);
+        }
+        else{
             linearSlide.setPower(0);
         }
     }
