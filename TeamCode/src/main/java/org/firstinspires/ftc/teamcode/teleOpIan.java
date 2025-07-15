@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Ian")
 public class teleOpIan extends OpMode {
@@ -29,6 +31,7 @@ public class teleOpIan extends OpMode {
     private double arm_max;
     private double arm_min;
     private double DRIVE_POWER_VARIABLE = 1;
+    private DistanceSensor distanceSensor;
 
     @Override
     public void init() {
@@ -36,6 +39,8 @@ public class teleOpIan extends OpMode {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
 
         sampleArm = hardwareMap.get(Servo.class, "sampleArm");
         arm_max = 0.8;
@@ -69,7 +74,7 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleDriveTrain() {
-        if(gamepad1.dpad_up){
+        if(gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH)>10){
             frontLeft.setPower(0.5);
             frontRight.setPower(0.5);
             backLeft.setPower(0.5);
@@ -93,7 +98,7 @@ public class teleOpIan extends OpMode {
             backLeft.setPower(0.5);
             backRight.setPower(-0.5);
         }
-        else{
+        else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
