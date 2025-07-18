@@ -42,6 +42,8 @@ public class DistanceSensorTest extends OpMode {
     public void loop() {
         handleDrivtrain();
 
+        telemetry.addData("distance sensor", dist.getDistance(DistanceUnit.INCH));
+
     }
 
     private void handleDrivtrain() {
