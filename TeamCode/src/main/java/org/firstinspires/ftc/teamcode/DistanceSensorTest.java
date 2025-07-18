@@ -47,15 +47,19 @@ public class DistanceSensorTest extends OpMode {
     }
 
     private void handleDrivtrain() {
-        double rStickY = gamepad1.right_stick_y;
-        if ((rStickY > Math.abs(0.2)) && (dist.getDistance(DistanceUnit.INCH) > 12)){
+        double rStickY = -gamepad1.right_stick_y;
+        if ((rStickY > 0.2) && (dist.getDistance(DistanceUnit.INCH) > 20)){
             frontLeft.setPower(rStickY);
             frontRight.setPower(rStickY);
             backLeft.setPower(rStickY);
             backRight.setPower(rStickY);
 
-        }
-        else {
+        } else if (rStickY < -0.2) {
+            frontLeft.setPower(rStickY);
+            frontRight.setPower(rStickY);
+            backLeft.setPower(rStickY);
+            backRight.setPower(rStickY);
+        } else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
