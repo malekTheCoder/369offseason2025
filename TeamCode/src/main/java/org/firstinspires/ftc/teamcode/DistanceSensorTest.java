@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp
+@TeleOp (name = "test distance sensor malek")
 public class DistanceSensorTest extends OpMode {
 
     private DcMotor frontLeft;
@@ -47,12 +47,12 @@ public class DistanceSensorTest extends OpMode {
     }
 
     private void handleDrivtrain() {
-        double lStickY = gamepad1.left_stick_y;
-        if ((lStickY > Math.abs(0.2)) && (dist.getDistance(DistanceUnit.INCH) > 12)){
-            frontLeft.setPower(0.5 * lStickY);
-            frontRight.setPower(0.5 * lStickY);
-            backLeft.setPower(0.5 * lStickY);
-            backRight.setPower(0.5 * lStickY);
+        double rStickY = gamepad1.right_stick_y;
+        if ((rStickY > Math.abs(0.2)) && (dist.getDistance(DistanceUnit.INCH) > 12)){
+            frontLeft.setPower(rStickY);
+            frontRight.setPower(rStickY);
+            backLeft.setPower(rStickY);
+            backRight.setPower(rStickY);
 
         }
         else {
