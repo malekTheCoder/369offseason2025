@@ -12,14 +12,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="Ian8888")
+@TeleOp(name="ianTeleOp")
 public class teleOpIan extends OpMode {
     private DcMotor backLeft;
     private DcMotor frontLeft;
     private DcMotor backRight;
     private DcMotor frontRight;
     private Servo claw;
-    private DcMotor linearSlide;
+    //private DcMotor linearSlide;
     private double claw_max;
     private double claw_min;
     private Servo clawRot;
@@ -40,9 +40,9 @@ public class teleOpIan extends OpMode {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        linearSlide = hardwareMap.get(DcMotor.class, "slide");
+       // linearSlide = hardwareMap.get(DcMotor.class, "slide");
 
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
 
         sampleArm = hardwareMap.get(Servo.class, "sampleArm");
         arm_max = 0.8;
@@ -62,7 +62,7 @@ public class teleOpIan extends OpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       // linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
@@ -79,11 +79,11 @@ public class teleOpIan extends OpMode {
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("backRight position", backRight.getCurrentPosition());
-        telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
+        //telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
     }
 
     private void handleDriveTrain() {
-        if (gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
+        if (gamepad1.dpad_up) { // distanceSensor.getDistance(DistanceUnit.INCH) > 10
             frontLeft.setPower(0.5);
             frontRight.setPower(0.5);
             backLeft.setPower(0.5);
@@ -115,7 +115,7 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleClaw() {
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper || distanceSensor.getDistance(DistanceUnit.INCH) < 32) {
             claw.setPosition(claw_min);
         } else if (gamepad1.left_bumper) {
             claw.setPosition(claw_max);
