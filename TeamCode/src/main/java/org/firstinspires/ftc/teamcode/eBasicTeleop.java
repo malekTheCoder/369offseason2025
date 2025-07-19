@@ -79,6 +79,10 @@ public class eBasicTeleop extends OpMode {
             frontLeft.setPower(.3);
             frontRight.setPower(.3);
         }
+
+        if(distance.getDistance(DistanceUnit.INCH) < 10){
+            arm.setPosition(0.1);
+        }
     }
     private void intake(){
         if (gamepad1.left_bumper) {
