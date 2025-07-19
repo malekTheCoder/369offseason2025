@@ -89,24 +89,25 @@ public class teleOpIan extends OpMode {
             backLeft.setPower(0.5);
             backRight.setPower(0.5);
         }
-        if (gamepad1.dpad_down) {
+        else if (gamepad1.dpad_down) {
             frontLeft.setPower(-0.5);
             frontRight.setPower(-0.5);
             backLeft.setPower(-0.5);
             backRight.setPower(-0.5);
         }
-        if (gamepad1.dpad_right) {
+        else if (gamepad1.dpad_right) {
             frontLeft.setPower(0.5);
             frontRight.setPower(-0.5);
             backLeft.setPower(-0.5);
             backRight.setPower(0.5);
         }
-        if (gamepad1.dpad_left) {
+        else if (gamepad1.dpad_left) {
             frontLeft.setPower(-0.5);
             frontRight.setPower(0.5);
             backLeft.setPower(0.5);
             backRight.setPower(-0.5);
-        } else {
+        }
+        else {
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
