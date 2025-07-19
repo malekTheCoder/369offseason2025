@@ -115,7 +115,7 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleClaw() {
-        if (gamepad1.right_bumper || distanceSensor.getDistance(DistanceUnit.INCH) < 32) {
+        if (gamepad1.right_bumper || distanceSensor.getDistance(DistanceUnit.INCH) < 24) {
             claw.setPosition(claw_min);
         } else if (gamepad1.left_bumper) {
             claw.setPosition(claw_max);
