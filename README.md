@@ -321,7 +321,7 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
 * Fixes the "Download" context menu item for external libraries in the OnBotJava interface.
 * Fixes issue where Driver Station telemetry would intermittently freeze when set to Monospace mode.
 * Fixes performance regression for certain REV Hub operations that was introduced in version 8.2.
-* Fixes TagID comparison logic in DriveToTag samples.
+* Fixes TagID comparison logic in DriveToTag samples. "
 
 ## Version 8.2 (20230707-131020)
 
