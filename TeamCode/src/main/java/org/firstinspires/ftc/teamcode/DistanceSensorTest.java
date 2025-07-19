@@ -16,7 +16,7 @@ public class DistanceSensorTest extends OpMode {
     private DcMotor backLeft;
     private DcMotor backRight;
 
-    private DistanceSensor dist
+    private DistanceSensor dist;
 
     @Override
     public void init() {
