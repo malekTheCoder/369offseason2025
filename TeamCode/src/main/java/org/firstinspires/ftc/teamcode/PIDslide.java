@@ -13,8 +13,6 @@ import com.qualcomm.robotcore.hardware.DcMotorControllerEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 
-
-
 @Config
 @TeleOp(name = "pid linear slide")
 public class PIDslide extends OpMode {
