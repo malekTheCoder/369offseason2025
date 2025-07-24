@@ -38,21 +38,38 @@ public class DifferentialTest extends OpMode {
 
     @Override
     public void loop() {
-        handleDifferential();
+        //handleDifferential();
+        if (gamepad1.aWasPressed()) {
 
+            left.setPosition(0.8);
+            right.setPosition(0.8);
+        } else if (gamepad1.yWasPressed()) {
+            left.setPosition(0);
+            right.setPosition(0);
+        } else if (gamepad1.x) {
+
+                left.setPosition(left.getPosition()+0.2);
+                right.setPosition(right.getPosition()-0.2);
+
+        } else if (gamepad1.b) {
+            // right rotation
+                left.setPosition(left.getPosition()-0.2);
+                right.setPosition(left.getPosition()+0.2);
+
+        }
     }
 
     private void handleDifferential() {
         if (gamepad1.aWasPressed()) {
             // lift it up
             isLifted = true;
-            left.setPosition(0.7);
-            right.setPosition(0.7);
+            left.setPosition(1);
+            right.setPosition(1);
         } else if (gamepad1.yWasPressed()) {
             // lower it down
             isLifted = false;
-            left.setPosition(0.0);
-            right.setPosition(0.0);
+            left.setPosition(0);
+            right.setPosition(0);
         } else if (gamepad1.xWasPressed()) {
             // left rotation
             if (isLifted) {
