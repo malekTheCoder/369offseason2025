@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -41,6 +42,11 @@ public class eBasicTeleop extends OpMode {
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+
         //slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -57,32 +63,64 @@ public class eBasicTeleop extends OpMode {
         //telemetry.addData("slide position", slide.getCurrentPosition());
     }
     private void drivetrain(){
+
+        if(gamepad1.left_stick_x > 0.2) {
+            backLeft.setPower(-1 * gamepad1.left_stick_x);
+            backRight.setPower(1 * gamepad1.left_stick_x);
+            frontLeft.setPower(1 * gamepad1.left_stick_x);
+            frontRight.setPower(-1 * gamepad1.left_stick_x);
+        }
+        if(gamepad1.left_stick_x < -0.2){
+            backLeft.setPower(-1 * gamepad1.left_stick_x);
+            backRight.setPower(1 * gamepad1.left_stick_x);
+            frontLeft.setPower(1 * gamepad1.left_stick_x);
+            frontRight.setPower(-1 * gamepad1.left_stick_x);
+        }
+
+        if(gamepad1.left_stick_y > .2){
+            backLeft.setPower(-gamepad1.left_stick_y);
+            backRight.setPower(-gamepad1.left_stick_y);
+            frontLeft.setPower(-gamepad1.left_stick_y);
+            frontRight.setPower(-gamepad1.left_stick_y);
+        }
+        if(gamepad1.left_stick_y < -0.2){
+            backLeft.setPower(-gamepad1.left_stick_y);
+            backRight.setPower(-gamepad1.left_stick_y);
+            frontLeft.setPower(-gamepad1.left_stick_y);
+            frontRight.setPower(-gamepad1.left_stick_y);
+        }
+
+        if(gamepad1.right_stick_x > 0.2){
+            backLeft.setPower(1 * gamepad1.right_stick_x);
+            backRight.setPower(-1*gamepad1.right_stick_x);
+            frontLeft.setPower(1*gamepad1.right_stick_x);
+            frontRight.setPower(-1*gamepad1.right_stick_x);
+        }
+
+        if(gamepad1.right_stick_x <-0.2){
+            backLeft.setPower(1 * gamepad1.right_stick_x);
+            backRight.setPower(-1*gamepad1.right_stick_x);
+            frontLeft.setPower(1*gamepad1.right_stick_x);
+            frontRight.setPower(-1*gamepad1.right_stick_x);
+        }
+
+        if(gamepad1.left_stick_x==0 && gamepad1.right_stick_x==0 && gamepad1.left_stick_y==0){
+            backLeft.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
+        }
         /*
-        backLeft.setPower(-1*gamepad1.left_stick_x);
-        backRight.setPower(1*gamepad1.left_stick_x);
-        frontLeft.setPower(1*gamepad1.left_stick_x);
-        frontRight.setPower(-1*gamepad1.left_stick_x);
-        */
-        backLeft.setPower(1*gamepad1.left_stick_y);
-        backRight.setPower(1*gamepad1.left_stick_y);
-        frontLeft.setPower(1*gamepad1.left_stick_y);
-        frontRight.setPower(1*gamepad1.left_stick_y);
-
-        backLeft.setPower(1 * gamepad1.right_stick_x);
-        backRight.setPower(-1*gamepad1.right_stick_x);
-        frontLeft.setPower(1*gamepad1.right_stick_x);
-        frontRight.setPower(-1*gamepad1.right_stick_x);
-
-        if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 6){
-            backLeft.setPower(.3);
-            backRight.setPower(.3);
-            frontLeft.setPower(.3);
-            frontRight.setPower(.3);
+        if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 10){
+            backLeft.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            frontRight.setPower(0);
         }
 
         if(distance.getDistance(DistanceUnit.INCH) < 10){
             arm.setPosition(0.1);
-        }
+        }*/
     }
     private void intake(){
         if (gamepad1.left_bumper) {
