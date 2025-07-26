@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -18,8 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit
 
 import java.util.Locale;
 
-@TeleOp(name = "basic teleop")
-public class eBasicTeleop extends OpMode {
+@TeleOp(name = "basic teleop with pinpoint")
+public class eTeleopPinpoint extends OpMode {
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor frontLeft;
@@ -30,7 +27,7 @@ public class eBasicTeleop extends OpMode {
     private Servo arm;
     //private Servo tower;
     private DistanceSensor distance;
-    private NormalizedColorSensor color;
+
     private GoBildaPinpointDriver pinpoint;
 
     @Override
@@ -54,8 +51,6 @@ public class eBasicTeleop extends OpMode {
         //tower = hardwareMap.get(Servo.class, "tower");
 
         distance = hardwareMap.get(DistanceSensor.class, "distance");
-        //color
-        color = hardwareMap.get(NormalizedColorSensor.class, "color");
 
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -80,70 +75,42 @@ public class eBasicTeleop extends OpMode {
         drivetrain();
         intake();
 
+        if (gamepad1.x) {
+            pinpoint.resetPosAndIMU();
+        }
+
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
         telemetry.addData("backRight position", backRight.getCurrentPosition());
-
-        //color
-        telemetry.addData("Light Detected", ((OpticalDistanceSensor) color).getLightDetected());
-
-        NormalizedRGBA colors = color.getNormalizedColors();
-
-        telemetry.addData("Red", "%.3f", colors.red);
-        telemetry.addData("Green", "%.3f", colors.green);
-        telemetry.addData("Blue", "%.3f", colors.blue);
-        telemetry.update();
         //telemetry.addData("slide position", slide.getCurrentPosition());
     }
     private void drivetrain(){
 
-        if(gamepad1.left_stick_x > 0.2) {
-            backLeft.setPower(-1 * gamepad1.left_stick_x);
-            backRight.setPower(1 * gamepad1.left_stick_x);
-            frontLeft.setPower(1 * gamepad1.left_stick_x);
-            frontRight.setPower(-1 * gamepad1.left_stick_x);
-        }
-        if(gamepad1.left_stick_x < -0.2){
-            backLeft.setPower(-1 * gamepad1.left_stick_x);
-            backRight.setPower(1 * gamepad1.left_stick_x);
-            frontLeft.setPower(1 * gamepad1.left_stick_x);
-            frontRight.setPower(-1 * gamepad1.left_stick_x);
-        }
+        pinpoint.update();
 
-        if(gamepad1.left_stick_y > .2){
-            backLeft.setPower(-gamepad1.left_stick_y);
-            backRight.setPower(-gamepad1.left_stick_y);
-            frontLeft.setPower(-gamepad1.left_stick_y);
-            frontRight.setPower(-gamepad1.left_stick_y);
-        }
-        if(gamepad1.left_stick_y < -0.2){
-            backLeft.setPower(-gamepad1.left_stick_y);
-            backRight.setPower(-gamepad1.left_stick_y);
-            frontLeft.setPower(-gamepad1.left_stick_y);
-            frontRight.setPower(-gamepad1.left_stick_y);
-        }
 
-        if(gamepad1.right_stick_x > 0.2){
-            backLeft.setPower(1 * gamepad1.right_stick_x);
-            backRight.setPower(-1*gamepad1.right_stick_x);
-            frontLeft.setPower(1*gamepad1.right_stick_x);
-            frontRight.setPower(-1*gamepad1.right_stick_x);
-        }
 
-        if(gamepad1.right_stick_x <-0.2){
-            backLeft.setPower(1 * gamepad1.right_stick_x);
-            backRight.setPower(-1*gamepad1.right_stick_x);
-            frontLeft.setPower(1*gamepad1.right_stick_x);
-            frontRight.setPower(-1*gamepad1.right_stick_x);
-        }
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x;
+        double rx = gamepad1.right_stick_x * 0.7;
 
-        if(gamepad1.left_stick_x==0 && gamepad1.right_stick_x==0 && gamepad1.left_stick_y==0){
-            backLeft.setPower(0);
-            backRight.setPower(0);
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-        }
+
+        double botHeading = pinpoint.getHeading(AngleUnit.RADIANS);
+        // Field-oriented adjustments
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
+        double backLeftPower = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
+
+        frontLeft.setPower(frontLeftPower);
+        frontRight.setPower(frontRightPower);
+        backLeft.setPower(backLeftPower);
+        backRight.setPower(backRightPower);
 
         if(gamepad1.left_stick_y > 0.3 && distance.getDistance(DistanceUnit.INCH) < 10){
             backLeft.setPower(0);
@@ -152,9 +119,23 @@ public class eBasicTeleop extends OpMode {
             frontRight.setPower(0);
         }
 
-        if(distance.getDistance(DistanceUnit.INCH) < 20){
+        if(distance.getDistance(DistanceUnit.INCH) < 10){
             arm.setPosition(0.1);
         }
+
+        Pose2D pos = pinpoint.getPosition();
+        String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+        String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", pinpoint.getVelX(DistanceUnit.MM), pinpoint.getVelY(DistanceUnit.MM), pinpoint.getHeadingVelocity(UnnormalizedAngleUnit.DEGREES));
+        telemetry.addData("Velocity", velocity);
+        telemetry.addData("Position", data);
+        telemetry.addData("Status", pinpoint.getDeviceStatus());
+
+        telemetry.addData("Pinpoint Frequency", pinpoint.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
+
+        // telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
+        telemetry.update();
+
+
 
     }
     private void intake(){
