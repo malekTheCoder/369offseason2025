@@ -72,6 +72,8 @@ public class teleOpIan extends OpMode {
     @Override
     public void loop() {
 
+
+
         handleDriveTrain();
         handleClaw();
         handleClawRot();
@@ -154,11 +156,11 @@ public class teleOpIan extends OpMode {
 
 
     private void handleArm() {
-        if (gamepad1.right_trigger > 0.5) {
-            sampleArm.setPosition(arm_min);
+        if (gamepad1.right_trigger > 0.5 || distanceSensor.getDistance(DistanceUnit.INCH) < 24) {
+            sampleArm.setPosition(arm_min); // 0.2
         }
         else if (gamepad1.left_trigger > 0.5) {
-            sampleArm.setPosition(arm_max);
+            sampleArm.setPosition(arm_max); // 0.8
         }
     }
 
