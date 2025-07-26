@@ -33,6 +33,8 @@ public class teleOpIan extends OpMode {
     private double arm_min;
     private double DRIVE_POWER_VARIABLE = 1;
     private DistanceSensor distanceSensor;
+    private boolean isTurning;
+    private boolean foldUp;
 
     @Override
     public void init() {
@@ -41,6 +43,8 @@ public class teleOpIan extends OpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
        // linearSlide = hardwareMap.get(DcMotor.class, "slide");
+        isTurning=false; // is the robot currently turning?
+        foldUp=false; // should the sampleArm servo fold up?
 
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
 
@@ -73,6 +77,7 @@ public class teleOpIan extends OpMode {
         handleClawRot();
         //handleLowRaise();
         handleArm();
+        handleRotation();
         //handleSlide();
 
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
@@ -83,7 +88,8 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleDriveTrain() {
-        if (gamepad1.dpad_up) { // distanceSensor.getDistance(DistanceUnit.INCH) > 10
+        // general movements
+        if (gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
             frontLeft.setPower(0.5);
             frontRight.setPower(0.5);
             backLeft.setPower(0.5);
@@ -107,7 +113,7 @@ public class teleOpIan extends OpMode {
             backLeft.setPower(0.5);
             backRight.setPower(-0.5);
         }
-        else {
+        else if (isTurning==false){
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
@@ -116,10 +122,13 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleClaw() {
-        if (gamepad1.right_bumper/*|| distanceSensor.getDistance(DistanceUnit.INCH) < 24*/) {
+        if (gamepad1.left_bumper) {
+            if (distanceSensor.getDistance(DistanceUnit.INCH) < 24) {
+                claw.setPosition(claw_max);
+            }
+        }
+        else if (gamepad1.right_bumper) {
             claw.setPosition(claw_min);
-        } else if (gamepad1.left_bumper) {
-            claw.setPosition(claw_max);
         }
     }
 
@@ -145,10 +154,11 @@ public class teleOpIan extends OpMode {
 
 
     private void handleArm() {
-        if (gamepad1.left_trigger > 0.5) {
-            sampleArm.setPosition(arm_max);
-        } else if (gamepad1.left_trigger < 0.5) {
+        if (gamepad1.right_trigger > 0.5) {
             sampleArm.setPosition(arm_min);
+        }
+        else if (gamepad1.left_trigger > 0.5) {
+            sampleArm.setPosition(arm_max);
         }
     }
 
@@ -163,4 +173,25 @@ public class teleOpIan extends OpMode {
             linearSlide.setPower(0);
         }
     }*/
+
+    private void handleRotation() {
+        // drive rotation
+        if (gamepad1.left_stick_x>0.2){
+            isTurning=true;
+            frontLeft.setPower(0.5);
+            frontRight.setPower(-0.5);
+            backLeft.setPower(0.5);
+            backRight.setPower(-0.5);
+        }
+        else if(gamepad1.left_stick_x<-0.2){
+            isTurning=true;
+            frontLeft.setPower(-0.5);
+            frontRight.setPower(0.5);
+            backLeft.setPower(-0.5);
+            backRight.setPower(0.5);
+        }
+        else if (gamepad1.left_stick_x>-0.2 && gamepad1.left_stick_x<0.2){
+            isTurning=false;
+        }
+    }
 }
