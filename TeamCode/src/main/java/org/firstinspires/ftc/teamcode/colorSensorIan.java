@@ -53,6 +53,7 @@ public class colorSensorIan extends OpMode {
 
     @Override
     public void loop() {
+        colors = colorSensor.getNormalizedColors();
 
         handleClaw();
         handleClawRot();
@@ -62,7 +63,7 @@ public class colorSensorIan extends OpMode {
 
         telemetry.addData("detected color", colorSensor.getLightDetected());
         //telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
-        colors = colorSensor.getNormalizedColors();
+
         telemetry.addData("Red", "%.3f", colors.red);
         telemetry.addData("Green", "%.3f", colors.green);
         telemetry.addData("Blue", "%.3f", colors.blue);
