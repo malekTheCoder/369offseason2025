@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="ianTeleOp")
-public class teleOpIan extends OpMode {
+@TeleOp(name="ianColorSensor")
+public class colorSensorIan extends OpMode {
     private DcMotor backLeft;
     private DcMotor frontLeft;
     private DcMotor backRight;
@@ -37,6 +37,7 @@ public class teleOpIan extends OpMode {
     private DistanceSensor distanceSensor;
     private boolean isTurning;
     private boolean foldUp;
+    private RevColorSensorV3 colorSensor;
 
     @Override
     public void init() {
@@ -44,11 +45,12 @@ public class teleOpIan extends OpMode {
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-       // linearSlide = hardwareMap.get(DcMotor.class, "slide");
+        // linearSlide = hardwareMap.get(DcMotor.class, "slide");
         isTurning=false; // is the robot currently turning?
         foldUp=false; // should the sampleArm servo fold up?
 
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
+        colorSensor = hardwareMap.get(RevColorSensorV3.class, "color");
 
         sampleArm = hardwareMap.get(Servo.class, "sampleArm");
         arm_max = 0.8;
@@ -68,7 +70,7 @@ public class teleOpIan extends OpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-       // linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
@@ -90,6 +92,11 @@ public class teleOpIan extends OpMode {
         telemetry.addData("backRight position", backRight.getCurrentPosition());
         telemetry.addData("detected color", colorSensor.getLightDetected());
         //telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
+        NormalizedRGBA colors = colorSensor.getNormalizedColors();
+        telemetry.addData("Red", "%.3f", colors.red);
+        telemetry.addData("Green", "%.3f", colors.green);
+        telemetry.addData("Blue", "%.3f", colors.blue);
+        telemetry.update();
     }
 
     private void handleDriveTrain() {
@@ -127,7 +134,12 @@ public class teleOpIan extends OpMode {
     }
 
     private void handleClaw() {
-        if (gamepad1.right_bumper) {
+        if (gamepad1.left_bumper) {
+            if (colorSensor.getNormalizedColors()==) {
+                claw.setPosition(claw_max);
+            }
+        }
+        else if (gamepad1.right_bumper) {
             claw.setPosition(claw_min);
         }
     }
