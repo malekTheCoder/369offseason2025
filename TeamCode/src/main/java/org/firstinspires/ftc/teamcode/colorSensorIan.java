@@ -134,12 +134,7 @@ public class colorSensorIan extends OpMode {
     }
 
     private void handleClaw() {
-        if (gamepad1.left_bumper) {
-            if (colorSensor.getNormalizedColors()==) {
-                claw.setPosition(claw_max);
-            }
-        }
-        else if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper) {
             claw.setPosition(claw_min);
         }
     }
