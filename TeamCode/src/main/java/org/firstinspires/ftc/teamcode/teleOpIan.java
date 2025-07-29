@@ -88,7 +88,6 @@ public class teleOpIan extends OpMode {
         telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
         telemetry.addData("frontRight position", frontRight.getCurrentPosition());
         telemetry.addData("backRight position", backRight.getCurrentPosition());
-        telemetry.addData("detected color", colorSensor.getLightDetected());
         //telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
     }
 

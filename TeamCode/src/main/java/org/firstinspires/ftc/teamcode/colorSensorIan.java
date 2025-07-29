@@ -16,10 +16,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="ianColorSensor")
 public class colorSensorIan extends OpMode {
-    private DcMotor backLeft;
-    private DcMotor frontLeft;
-    private DcMotor backRight;
-    private DcMotor frontRight;
     private Servo claw;
     //private DcMotor linearSlide;
     private double claw_max;
@@ -33,23 +29,11 @@ public class colorSensorIan extends OpMode {
     private Servo sampleArm;
     private double arm_max;
     private double arm_min;
-    private double DRIVE_POWER_VARIABLE = 1;
-    private DistanceSensor distanceSensor;
-    private boolean isTurning;
-    private boolean foldUp;
     private RevColorSensorV3 colorSensor;
+    private NormalizedRGBA colors;
 
     @Override
     public void init() {
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        // linearSlide = hardwareMap.get(DcMotor.class, "slide");
-        isTurning=false; // is the robot currently turning?
-        foldUp=false; // should the sampleArm servo fold up?
-
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance");
         colorSensor = hardwareMap.get(RevColorSensorV3.class, "color");
 
         sampleArm = hardwareMap.get(Servo.class, "sampleArm");
@@ -64,77 +48,31 @@ public class colorSensorIan extends OpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         claw_max = 0.8;
         claw_min = 0.2;
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // linearSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     @Override
     public void loop() {
 
-
-
-        handleDriveTrain();
         handleClaw();
         handleClawRot();
         //handleLowRaise();
         handleArm();
-        handleRotation();
         //handleSlide();
 
-        telemetry.addData("backLeft position", backLeft.getCurrentPosition());
-        telemetry.addData("frontLeft position", frontLeft.getCurrentPosition());
-        telemetry.addData("frontRight position", frontRight.getCurrentPosition());
-        telemetry.addData("backRight position", backRight.getCurrentPosition());
         telemetry.addData("detected color", colorSensor.getLightDetected());
         //telemetry.addData("linearSlide position", linearSlide.getCurrentPosition());
-        NormalizedRGBA colors = colorSensor.getNormalizedColors();
+        colors = colorSensor.getNormalizedColors();
         telemetry.addData("Red", "%.3f", colors.red);
         telemetry.addData("Green", "%.3f", colors.green);
         telemetry.addData("Blue", "%.3f", colors.blue);
         telemetry.update();
-    }
 
-    private void handleDriveTrain() {
-        // general movements
-        if (gamepad1.dpad_up && distanceSensor.getDistance(DistanceUnit.INCH) > 10) {
-            frontLeft.setPower(0.5);
-            frontRight.setPower(0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(0.5);
-        }
-        else if (gamepad1.dpad_down) {
-            frontLeft.setPower(-0.5);
-            frontRight.setPower(-0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(-0.5);
-        }
-        else if (gamepad1.dpad_right) {
-            frontLeft.setPower(0.5);
-            frontRight.setPower(-0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(0.5);
-        }
-        else if (gamepad1.dpad_left) {
-            frontLeft.setPower(-0.5);
-            frontRight.setPower(0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(-0.5);
-        }
-        else if (isTurning==false){
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
-        }
+
     }
 
     private void handleClaw() {
-        if (gamepad1.right_bumper) {
+        if (gamepad1.right_bumper || colors.red>200) {
             claw.setPosition(claw_min);
         }
     }
@@ -161,7 +99,7 @@ public class colorSensorIan extends OpMode {
 
 
     private void handleArm() {
-        if (gamepad1.right_trigger > 0.5 || distanceSensor.getDistance(DistanceUnit.INCH) < 24) {
+        if (gamepad1.right_trigger > 0.5) {
             sampleArm.setPosition(arm_min); // 0.2
         }
         else if (gamepad1.left_trigger > 0.5) {
@@ -180,25 +118,4 @@ public class colorSensorIan extends OpMode {
             linearSlide.setPower(0);
         }
     }*/
-
-    private void handleRotation() {
-        // drive rotation
-        if (gamepad1.left_stick_x>0.2){
-            isTurning=true;
-            frontLeft.setPower(0.5);
-            frontRight.setPower(-0.5);
-            backLeft.setPower(0.5);
-            backRight.setPower(-0.5);
-        }
-        else if(gamepad1.left_stick_x<-0.2){
-            isTurning=true;
-            frontLeft.setPower(-0.5);
-            frontRight.setPower(0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(0.5);
-        }
-        else if (gamepad1.left_stick_x>-0.2 && gamepad1.left_stick_x<0.2){
-            isTurning=false;
-        }
-    }
 }
