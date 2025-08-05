@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SamplesDetection;
+package org.firstinspires.ftc.teamcode.husky;
 
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 
