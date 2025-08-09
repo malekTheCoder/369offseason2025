@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -31,6 +32,8 @@ public class eBasicTeleop extends OpMode {
     //private Servo tower;
     private DistanceSensor distance;
     private NormalizedColorSensor color;
+    double hue;
+    double redVal;
     private GoBildaPinpointDriver pinpoint;
 
     @Override
@@ -85,16 +88,56 @@ public class eBasicTeleop extends OpMode {
         telemetry.addData("backLeft position", backLeft.getCurrentPosition());
         telemetry.addData("backRight position", backRight.getCurrentPosition());
 
-        //color
         telemetry.addData("Light Detected", ((OpticalDistanceSensor) color).getLightDetected());
-
         NormalizedRGBA colors = color.getNormalizedColors();
+        hue = JavaUtil.colorToHue(colors.toColor());
+        redVal = colors.red;
 
+        if(redVal>0.08){
+            claw.setPosition(0.9);
+        }/*
+        else{
+            claw.setPosition(0.1)
+        }*/
+
+
+        //Determining the amount of red, green, and blue
         telemetry.addData("Red", "%.3f", colors.red);
         telemetry.addData("Green", "%.3f", colors.green);
         telemetry.addData("Blue", "%.3f", colors.blue);
-        telemetry.update();
+
+        //Determining HSV and alpha
+        telemetry.addData("Hue", JavaUtil.colorToHue(colors.toColor()));
+        telemetry.addData("Saturation", "%.3f", JavaUtil.colorToSaturation(colors.toColor()));
+        telemetry.addData("Value", "%.3f", JavaUtil.colorToValue(colors.toColor()));
+        telemetry.addData("Alpha", "%.3f", colors.alpha);
+
+        //Using hue to detect color
+        if(hue < 30){
+            telemetry.addData("Color", "Red");
+        }
+        else if (hue < 60) {
+            telemetry.addData("Color", "Orange");
+        }
+        else if (hue < 90){
+            telemetry.addData("Color", "Yellow");
+        }
+        else if (hue < 150){
+            telemetry.addData("Color", "Green");
+        }
+        else if (hue < 225){
+            telemetry.addData("Color", "Blue");
+        }
+        else if (hue < 350){
+            telemetry.addData("Color", "Purple");
+        }
+        else{
+            telemetry.addData("Color", "Red");
+            //claw.setPosition(0.9);
+        }
+
         //telemetry.addData("slide position", slide.getCurrentPosition());
+        telemetry.update();
     }
     private void drivetrain(){
 
