@@ -7,16 +7,11 @@
 package org.firstinspires.ftc.teamcode.husky;
 import java.util.*;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
 import com.qualcomm.hardware.dfrobot.HuskyLens;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@TeleOp(name="HuskyLens TeleOp", group="Vision")
+@TeleOp(name="HuskyLens TeleOp")
 public class huskyOPmode extends LinearOpMode {
     huskypipeline pipeline;
     HuskyLens huskyLens;
