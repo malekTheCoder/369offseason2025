@@ -24,7 +24,7 @@ public class huskypipeline{
     private static final double PIECE_WIDTH  = 31.8;  // 1.5 inches in mm for actual sample
     private final MatOfPoint3f pieceObjectPoints;
 
-    // Pose result container for each detection
+    // Pose result for each detection
     public static class DetectedPose {
         public double x;
         public double y;
