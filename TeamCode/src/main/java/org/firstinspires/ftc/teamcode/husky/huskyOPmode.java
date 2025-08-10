@@ -19,7 +19,7 @@ public class huskyOPmode extends LinearOpMode {
     @Override
     public void runOpMode() {
         // Initialize the HuskyLens sensor from hardware map
-        huskyLens = hardwareMap.get(HuskyLens.class, "huskylens");
+        huskyLens = hardwareMap.get(HuskyLens.class, "Webcam 1");
         // Set the HuskyLens to color detection mode (COLOR_RECOGNITION)
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
 
